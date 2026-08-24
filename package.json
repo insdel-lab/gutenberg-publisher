@@ -1,6 +1,7 @@
 {
   "name": "obsidian-gutenberg-publisher",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.15.9",
   "description": "Publish Obsidian Markdown as native WordPress Gutenberg blocks.",
   "main": "main.js",
   "scripts": {

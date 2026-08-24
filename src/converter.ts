@@ -26,13 +26,13 @@ function escapeHtml(value: string): string {
 }
 
 function normalizeObsidianSyntax(markdown: string): string {
-  return markdown
-    .replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, path: string, alt?: string) => {
-      return `![${alt ?? path}](${encodeURI(path)})`;
-    })
-    .replace(/(?<!!)\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, path: string, label?: string) => {
-      return `[${label ?? path}](${encodeURI(path.replace(/\.md$/i, ""))})`;
-    });
+  return markdown.replace(/(!?)\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, embed: string, path: string, label?: string) => {
+    if (embed) {
+      const alt = label ?? path;
+      return `![${alt}](${encodeURI(path)})`;
+    }
+    return `[${label ?? path}](${encodeURI(path.replace(/\.md$/i, ""))})`;
+  });
 }
 
 function parseInline(token: Tokens.Paragraph | Tokens.Heading): string {

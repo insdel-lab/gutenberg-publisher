@@ -13,12 +13,17 @@ ObsidianのMarkdownノートをWordPressのネイティブGutenbergブロック�
 
 ## インストール
 
+コミュニティプラグインディレクトリへの掲載後は、Obsidianの「設定 → コミュニティプラグイン → 閲覧」で **Gutenberg Publisher** を検索し、インストールして有効にします。
+
+開発版を手動でインストールする場合は、次のコマンドでビルドします。
+
 ```bash
-npm install
-npm run build
+corepack enable
+pnpm install --frozen-lockfile
+pnpm build
 ```
 
-このフォルダの `main.js`、`manifest.json`、`styles.css` をVault内の次の場所へ配置します。
+生成された `main.js`と、このフォルダの `manifest.json`、`styles.css` をVault内の次の場所へ配置します。
 
 ```text
 <Vault>/.obsidian/plugins/gutenberg-publisher/
@@ -58,11 +63,24 @@ tags:
 ## 開発
 
 ```bash
-npm run dev   # watch build
-npm test
-npm run build
+pnpm dev   # watch build
+pnpm test
+pnpm build
 ```
 
-## セキュリティ
+## 外部通信とプライバシー
 
-アプリケーションパスワードはObsidianのプラグインデータに保存されます。WordPressログイン用パスワードを入力せず、このプラグイン専用のアプリケーションパスワードを使ってください。不要になった場合はWordPressのプロフィール画面から個別に失効できます。
+このプラグインは、ユーザーが設定したWordPressサイトのREST APIとのみ通信します。接続テストまたは投稿コマンドを実行したときに、次の情報をWordPressへ送信します。
+
+- WordPressユーザー名とアプリケーションパスワード
+- 投稿タイトル、本文、抜粋、スラッグ、公開日時、投稿状態
+- カテゴリとタグ
+- ローカル画像のアップロードを有効にした場合は、ノートに埋め込まれた画像と代替テキスト
+
+通信は接続確認、カテゴリ・タグの検索／作成、画像のアップロード、投稿／固定ページの作成・更新に必要です。開発者が運営するサーバーへの通信、解析、広告、テレメトリーはありません。
+
+アプリケーションパスワードは、VaultのObsidianプラグインデータに保存されます。Obsidian SyncやiCloudなどでVault設定を同期する場合、認証情報も同期対象になる可能性があります。WordPressの通常ログインパスワードではなく、このプラグイン専用のアプリケーションパスワードを使用し、HTTPSのWordPressサイトへ接続してください。不要になった場合はWordPressのプロフィール画面から個別に失効できます。
+
+## ライセンス
+
+[MIT License](./LICENSE)

@@ -13,10 +13,14 @@ describe("markdownToGutenberg", () => {
   });
 
   it("converts Obsidian embeds and resolves image URLs", async () => {
-    const result = await markdownToGutenberg("![[assets/photo.png|説明]]", async (url) => `https://example.com/${url}`);
+    const result = await markdownToGutenberg(
+      "![[assets/photo.png|説明]]\n\n[[Related note.md|関連記事]]",
+      async (url) => `https://example.com/${url}`
+    );
     expect(result.content).toContain("<!-- wp:image -->");
     expect(result.content).toContain("https://example.com/assets/photo.png");
     expect(result.content).toContain('alt="説明"');
+    expect(result.content).toContain('<a href="Related%20note">関連記事</a>');
   });
 
   it("creates table and quote blocks", async () => {
