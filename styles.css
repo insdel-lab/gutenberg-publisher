@@ -1,0 +1,7 @@
+.gutenberg-publisher-status {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+}
+
+.gutenberg-publisher-status.is-success { color: var(--text-success); }
+.gutenberg-publisher-status.is-error { color: var(--text-error); }

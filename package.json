@@ -1,0 +1,24 @@
+{
+  "name": "obsidian-gutenberg-publisher",
+  "version": "1.0.0",
+  "description": "Publish Obsidian Markdown as native WordPress Gutenberg blocks.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run"
+  },
+  "keywords": ["obsidian", "wordpress", "gutenberg"],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "obsidian": "latest",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "marked": "^15.0.6"
+  }
+}

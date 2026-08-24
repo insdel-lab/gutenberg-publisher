@@ -1,0 +1,9 @@
+{
+  "id": "gutenberg-publisher",
+  "name": "Gutenberg Publisher",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Convert Obsidian Markdown to Gutenberg blocks and publish it to WordPress in one click.",
+  "author": "ra",
+  "isDesktopOnly": false
+}
