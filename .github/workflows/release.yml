@@ -34,6 +34,9 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Lint
+        run: pnpm lint
+
       - name: Build
         run: pnpm build
 
@@ -60,5 +63,5 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" \
             --title "$GITHUB_REF_NAME" \
-            --notes "Initial release of Gutenberg Publisher." \
+            --generate-notes \
             main.js manifest.json styles.css

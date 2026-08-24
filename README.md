@@ -1,4 +1,39 @@
-# Gutenberg Publisher for Obsidian
+# Gutenberg Publisher
+
+Publish Markdown notes to WordPress as editable, native Gutenberg blocks directly from the ribbon or command palette.
+
+## Features
+
+- Converts headings, paragraphs, emphasis, links, lists, quotes, code blocks, separators, tables, and images to Gutenberg blocks.
+- Uploads local images referenced with embeds such as `![[image.png]]` to the WordPress media library.
+- Supports posts and pages with draft, published, pending-review, and private statuses.
+- Resolves categories and tags by name and creates terms that do not exist yet.
+- Stores the WordPress post ID in note frontmatter so subsequent publishing updates the same post.
+
+## Installation
+
+After the plugin is accepted into the Community directory, open **Settings → Community plugins → Browse**, search for **Gutenberg Publisher**, and then install and enable it.
+
+For manual installation, build the plugin and copy `main.js`, `manifest.json`, and `styles.css` to:
+
+```text
+<Vault>/.obsidian/plugins/gutenberg-publisher/
+```
+
+## WordPress setup
+
+1. In WordPress, open **Users → Profile**.
+2. Create a dedicated application password for Gutenberg Publisher.
+3. In the plugin settings, enter the HTTPS site URL, WordPress username, and application password.
+4. Run the connection test before publishing.
+
+## Network access and privacy
+
+The plugin connects only to the WordPress site configured by the user. When the connection test or a publishing command is run, it may send the WordPress username and application password, post content and metadata, categories, tags, and embedded local images. These requests are required to authenticate, resolve terms, upload media, and create or update posts and pages.
+
+The plugin has no developer-operated service, analytics, advertising, or telemetry. Credentials are stored in the plugin data inside the Vault and may be included when Vault configuration is synchronized. Use a dedicated, revocable WordPress application password and an HTTPS site.
+
+## 日本語
 
 ObsidianのMarkdownノートをWordPressのネイティブGutenbergブロックへ変換し、リボンの送信アイコンから投稿・更新するプラグインです。
 

@@ -1,9 +1,9 @@
 {
   "id": "gutenberg-publisher",
   "name": "Gutenberg Publisher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.5.0",
-  "description": "Convert Obsidian Markdown to Gutenberg blocks and publish it to WordPress in one click.",
+  "description": "Convert Markdown notes to native Gutenberg blocks and publish them to WordPress.",
   "author": "insdel-lab",
   "authorUrl": "https://github.com/insdel-lab",
   "isDesktopOnly": false

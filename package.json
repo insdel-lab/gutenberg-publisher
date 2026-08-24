@@ -1,25 +1,31 @@
 {
   "name": "obsidian-gutenberg-publisher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packageManager": "pnpm@9.15.9",
-  "description": "Publish Obsidian Markdown as native WordPress Gutenberg blocks.",
+  "description": "Publish Markdown notes as native WordPress Gutenberg blocks.",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "keywords": ["obsidian", "wordpress", "gutenberg"],
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "builtin-modules": "^4.0.0",
-    "esbuild": "^0.24.2",
-    "obsidian": "latest",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "@eslint/js": "9.39.4",
+    "@types/node": "22.20.1",
+    "esbuild": "0.24.2",
+    "eslint": "9.39.4",
+    "eslint-plugin-obsidianmd": "0.4.1",
+    "globals": "17.11.0",
+    "jiti": "2.7.0",
+    "obsidian": "1.13.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vitest": "2.1.9"
   },
   "dependencies": {
-    "marked": "^15.0.6"
+    "marked": "15.0.12"
   }
 }

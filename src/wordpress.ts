@@ -45,7 +45,7 @@ export class WordPressClient {
     });
 
     if (response.status < 200 || response.status >= 300) {
-      const detail = response.json?.message ?? response.text ?? `HTTP ${response.status}`;
+      const detail = errorMessage(response.json as unknown) ?? (response.text || `HTTP ${response.status}`);
       throw new WordPressError(`WordPress API: ${detail}`, response.status);
     }
     return response.json as T;
@@ -117,4 +117,9 @@ function utf8Base64(value: string): string {
   let binary = "";
   bytes.forEach((byte) => binary += String.fromCharCode(byte));
   return btoa(binary);
+}
+
+function errorMessage(value: unknown): string | undefined {
+  if (typeof value !== "object" || value === null || !("message" in value)) return undefined;
+  return typeof value.message === "string" ? value.message : undefined;
 }

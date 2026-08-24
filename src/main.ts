@@ -47,7 +47,8 @@ export default class GutenbergPublisherPlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const stored = await this.loadData() as unknown;
+    this.settings = { ...DEFAULT_SETTINGS, ...parseSettings(stored) };
   }
 
   async saveSettings(): Promise<void> {
@@ -75,7 +76,8 @@ export default class GutenbergPublisherPlugin extends Plugin {
     try {
       const raw = await this.app.vault.read(file);
       const cache = this.app.metadataCache.getFileCache(file);
-      const frontmatter = cache?.frontmatter ?? {};
+      const cachedFrontmatter = cache?.frontmatter as unknown;
+      const frontmatter = isRecord(cachedFrontmatter) ? cachedFrontmatter : {};
       const body = stripFrontmatter(raw);
       const client = new WordPressClient(this.settings);
       const metadata = this.getMetadata(file, frontmatter, forcedStatus);
@@ -102,7 +104,7 @@ export default class GutenbergPublisherPlugin extends Plugin {
         tags
       }, metadata.postId);
 
-      await this.app.fileManager.processFrontMatter(file, (fm) => {
+      await this.app.fileManager.processFrontMatter(file, (fm: Record<string, unknown>) => {
         fm.wordpress_id = response.id;
         fm.wordpress_url = response.link;
         fm.wordpress_status = response.status;
@@ -125,7 +127,7 @@ export default class GutenbergPublisherPlugin extends Plugin {
     const frontmatterTags = toArray(fm.tags ?? fm.tag).map((tag) => String(tag).replace(/^#/, ""));
     const inlineTags = (cache ? getAllTags(cache) ?? [] : []).map((tag) => tag.replace(/^#/, ""));
     return {
-      title: String(fm.title ?? file.basename),
+      title: optionalString(fm.title) ?? file.basename,
       status: forcedStatus ?? validStatus(fm.status) ?? this.settings.defaultStatus,
       postType: resolvePostType(fm.wordpress_post_type ?? fm.post_type, this.settings.postType),
       postId: positiveNumber(fm.wordpress_id),
@@ -185,6 +187,24 @@ function resolvePostType(value: unknown, fallback: "posts" | "pages"): "posts" |
   if (value === "page" || value === "pages") return "pages";
   if (value === "post" || value === "posts") return "posts";
   return fallback;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseSettings(value: unknown): Partial<PublisherSettings> {
+  if (!isRecord(value)) return {};
+  const settings: Partial<PublisherSettings> = {};
+  if (typeof value.siteUrl === "string") settings.siteUrl = value.siteUrl;
+  if (typeof value.username === "string") settings.username = value.username;
+  if (typeof value.applicationPassword === "string") settings.applicationPassword = value.applicationPassword;
+  const defaultStatus = validStatus(value.defaultStatus);
+  if (defaultStatus) settings.defaultStatus = defaultStatus;
+  if (value.postType === "posts" || value.postType === "pages") settings.postType = value.postType;
+  if (typeof value.removeTitleHeading === "boolean") settings.removeTitleHeading = value.removeTitleHeading;
+  if (typeof value.uploadImages === "boolean") settings.uploadImages = value.uploadImages;
+  return settings;
 }
 
 function mimeType(extension: string): string {
